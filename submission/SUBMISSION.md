@@ -21,9 +21,18 @@ Check items off here as they're completed; note the screenshot filename once cap
 - Note: About.html team photos still use the placeholder `person.png` — swap in real images when you have them
 
 ## Module 2 — User Management (6 pts)
-- [ ] Django auth (login/logout/register) implemented
-- [ ] React frontend for login/register
-- [ ] Screenshots per lab instructions
+- [x] Superuser created (`admin` — see `createsuperuser` note below)
+- [x] React client built (`server/frontend` — `npm install && npm run build`); settings.py TEMPLATES DIRS / STATICFILES_DIRS updated for frontend/build
+- [x] Login view (`djangoapp/views.py: login_user`) + `login/` route + Login.jsx wired up
+- [x] Logout view (`djangoapp/views.py: logout_request`) + `logout` route + Home.html logout handler
+- [x] Registration view (`djangoapp/views.py: registration`) + `register/` route + `Register.jsx`
+- [x] Nav bar shows Login/Register when logged out, username + Logout when logged in (Home.html `checkSession()`)
+- [x] Verified end-to-end via Playwright: login as admin, logout, register new user (testuser1) — all confirmed working
+- [x] Pushed (commit 40278e0)
+- [x] Saved public GitHub URL of Register.jsx — `register_jsx_url.txt`
+- [x] Saved curl transcripts: `loginuser.txt`, `logoutuser.txt`
+- [x] Screenshots: `screenshots/login-page.png`, `home-loggedin.png`, `home-afterlogout.png`, `register-page.png`, `home-afterregister.png`, `admin-dashboard.png`, `admin-users.png`
+- Note: superuser username is `admin` (password given to you in chat only, not recorded here — change it anytime with `manage.py changepassword admin`)
 
 ## Module 3 — Back End (12 pts)
 - [ ] Node.js/Express + MongoDB service for dealers & reviews, dockerized
