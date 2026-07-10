@@ -79,10 +79,16 @@ Check items off here as they're completed; note the screenshot filename once cap
   - Live run: https://github.com/Lbstrydom/xrwvm-fullstack_developer_capstone/actions/runs/29116537476 — ✅ both jobs green
   - Saved `gh run view --verbose` output: `CI_CD.txt`; screenshot: `github_actions_lint.png`
   - Pushed (commit 707acd9)
-- [ ] Run on Cloud IDE
-- [ ] Local test of updated app
-- [ ] Deploy on Kubernetes
-- [ ] Screenshots per lab instructions
+- [x] Deploy on Kubernetes (containerize + K8s deployment)
+  - `server/Dockerfile` (gunicorn + `entrypoint.sh` running makemigrations/migrate/collectstatic on boot) — per lab spec, `db.sqlite3` (with the `admin`/`root` users and CarMake/CarModel data) is baked into the image via `COPY . $APP`
+  - `server/deployment.yaml` — same shape as the lab's template; image `dealership:latest` instead of `us.icr.io/<namespace>/dealership:latest` since no IBM Cloud Container Registry/`ibmcloud` CLI is available here (same substitution as the Code Engine step)
+  - **Local substitution**: deployed to Docker Desktop's built-in Kubernetes (not SN Labs/IBM Cloud). `backend_url`/`sentiment_analyzer_url` overridden via pod env vars pointing at `host.docker.internal` so the pod can reach the host-run Node/Mongo backend (`:3030`) and sentiment microservice (`:5050`) — Kubernetes networking is a separate namespace from the host, so `localhost` inside the pod would NOT have reached them
+  - `kubectl apply -f deployment.yaml` → pod `Running` 1/1 → `kubectl port-forward deployment.apps/dealership 8000:8000`
+  - Verified end-to-end at http://localhost:8000/: landing page, login (persisted `admin` user from the baked-in DB), dealer details with pre-existing reviews, posted a new review and saw it appear instantly with live sentiment analysis
+  - Saved `deploymentURL.txt`, `kubernetes_deployment.txt` (kubectl command transcript)
+  - Screenshots: `deployed_landingpage.png`, `deployed_loggedin.png`, `deployed_dealer_detail.png`, `deployed_add_review.png`
+  - Pushed (commit ef5718c)
+- [ ] Run on actual Cloud IDE / deploy to real IBM Cloud Kubernetes — **TODO for you** if grading requires the literal SN Labs environment rather than the equivalent local deployment above
 
 ## Notes
 - Fill in exact screenshot filenames as each lab specifies them (graders match by filename).
