@@ -42,7 +42,15 @@ Check items off here as they're completed; note the screenshot filename once cap
   - Saved curl transcripts: `getdealerreviews.txt`, `getalldealers.txt`, `getdealerbyid.txt`, `getdealersbyState.txt`
   - Pushed (commit 8f8fd82)
 - [ ] Sentiment analyzer deployed on Code Engine
-- [ ] Django models/views for car make & model
+- [x] Django models/views for car make & model
+  - `CarMake`/`CarModel` models added (`djangoapp/models.py`), migrated via `makemigrations djangoapp` + `migrate --run-syncdb`
+  - Registered in Django admin with `CarModelInline` under `CarMakeAdmin` (`djangoapp/admin.py`)
+  - `populate.py` seeds 5 makes / 15 models on first call to `get_cars`
+  - `get_cars` view + `djangoapp/get_cars` route return combined make/model list as JSON — verified: 5 makes, 15 models
+  - Reviewer superuser created per lab spec: username `root`, password `root` (as instructed, for grader admin access)
+  - Screenshots: `admin_login.png`, `admin_logout.png` (logged in/out as `root`)
+  - Saved curl transcript: `getallcarmakes.txt`
+  - Pushed (commit 840bf45)
 - [ ] Django proxy services integrating dealers & reviews
 - [ ] Screenshots per lab instructions
 
