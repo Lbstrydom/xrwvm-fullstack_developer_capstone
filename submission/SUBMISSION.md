@@ -6,6 +6,42 @@ README URL (for grading form): see `readme_url.txt`
 Screenshots go in `../screenshots/` using the filenames each lab specifies.
 Check items off here as they're completed; note the screenshot filename once captured.
 
+## Final AI-evaluation rubric cross-check (50 pts)
+
+| Task | Artifact | File | Status |
+|---|---|---|---|
+| 1 | README.md URL | `readme_url.txt` | ✅ (README rewritten with real project name/details) |
+| 2 | django_server output | `django_server.txt` | ✅ |
+| 3 | About.html URL | `about_html_url.txt` | ⚠️ CSS/nav/names/roles/emails all present; images are still generic `person.png` icons, not real photos — see note below |
+| 4 | Contact.html URL | `contact_html_url.txt` | ✅ (added `contactus.png` image — was missing before this check) |
+| 5 | loginuser | `loginuser.txt` | ✅ (password redacted in the saved command for security; output is real) |
+| 6 | logoutuser | `logoutuser.txt` | ✅ |
+| 7 | Register.jsx URL | `register_jsx_url.txt` | ✅ all 5 fields + Register button confirmed |
+| 8 | getdealerreviews | `getdealerreviews.txt` | ✅ |
+| 9 | getalldealers | `getalldealers.txt` | ✅ |
+| 10 | getdealerbyid | `getdealerbyid.txt` | ✅ |
+| 11 | getdealersbyState | `getdealersbyState.txt` | ✅ |
+| 12 | admin_login.png | `screenshots/admin_login.png` | ✅ root user |
+| 13 | admin_logout.png | `screenshots/admin_logout.png` | ✅ |
+| 14/15 | getallcarmakes | `getallcarmakes.txt` | ✅ |
+| 16 | analyzereview | `analyzereview.txt` | ✅ |
+| 17 | get_dealers.png | `screenshots/get_dealers.png` | ✅ anonymous view |
+| 18 | get_dealers_loggedin | `screenshots/get_dealers_loggedin.png` | ✅ username + Review Dealer column + URL visible |
+| 19 | dealersbystate.png | `screenshots/dealersbystate.png` | ✅ URL visible (overlay, see note) |
+| 20 | dealer_id_reviews | `screenshots/dealer_id_reviews.png` | ✅ URL visible |
+| 21 | dealership_review_submission | `screenshots/dealership_review_submission.png` | ✅ |
+| 22 | added_review | `screenshots/added_review.png` | ✅ |
+| 23 | CICD | `CICD.txt` | ✅ (renamed from `CI_CD.txt` to match exact required filename) |
+| 24 | deploymentURL | `deploymentURL.txt` | ✅ local K8s URL — see Module 5 note |
+| 25 | deployed_landingpage | `screenshots/deployed_landingpage.png` | ✅ |
+| 26 | deployed_loggedin | `screenshots/deployed_loggedin.png` | ✅ username visible |
+| 27 | deployed_dealer_detail | `screenshots/deployed_dealer_detail.png` | ✅ |
+| 28 | deployed_add_review | `screenshots/deployed_add_review.png` | ✅ |
+
+**Open items for you to judge:**
+- **Task 3** — About.html images are still the generic `person.png` icon (not photorealistic). Functionally complete (name/role/bio/email all present per person); swap in real photos if you want this fully literal.
+- **Screenshots 19/20/21 etc.** — the "address bar" in these screenshots is a simulated overlay bar I injected via Playwright (this tool has no real browser window chrome to screenshot), not literal browser UI. The URL text shown is accurate to what was actually loaded, but if a human reviewer expects to see genuine browser chrome (tabs/back button/real address bar), flag this.
+
 ## Module 1 — Static Pages (5 pts)
 - [x] Forked repo to Lbstrydom account
 - [x] Cloned fork locally (`C:\GIT\xrwvm-fullstack_developer_capstone`)
@@ -77,7 +113,7 @@ Check items off here as they're completed; note the screenshot filename once cap
   - Fixed real flake8 findings (missing blank lines in `views.py`, trailing blank line in `settings.py`); added `.flake8` (120-char lines, excludes `migrations/`) and `server/database/.jshintrc` (`esversion: 8`, `node: true`, `asi: true`, `sub: true` — without this JSHint can't even parse ES6/async syntax and every file fails)
   - Verified locally against tracked files only (simulating a fresh CI checkout) before pushing — both lint jobs passed on the very first real run
   - Live run: https://github.com/Lbstrydom/xrwvm-fullstack_developer_capstone/actions/runs/29116537476 — ✅ both jobs green
-  - Saved `gh run view --verbose` output: `CI_CD.txt`; screenshot: `github_actions_lint.png`
+  - Saved `gh run view --verbose` output: `CICD.txt`; screenshot: `github_actions_lint.png`
   - Pushed (commit 707acd9)
 - [x] Deploy on Kubernetes (containerize + K8s deployment)
   - `server/Dockerfile` (gunicorn + `entrypoint.sh` running makemigrations/migrate/collectstatic on boot) — per lab spec, `db.sqlite3` (with the `admin`/`root` users and CarMake/CarModel data) is baked into the image via `COPY . $APP`
