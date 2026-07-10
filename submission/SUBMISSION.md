@@ -35,7 +35,12 @@ Check items off here as they're completed; note the screenshot filename once cap
 - Note: superuser username is `admin` (password given to you in chat only, not recorded here — change it anytime with `manage.py changepassword admin`)
 
 ## Module 3 — Back End (12 pts)
-- [ ] Node.js/Express + MongoDB service for dealers & reviews, dockerized
+- [x] Node.js/Express + MongoDB service for dealers & reviews, dockerized
+  - Implemented `fetchDealers`, `fetchDealers/:state`, `fetchDealer/:id` in `server/database/app.js` (fetchReviews/fetchReviews/dealer/:id/insert_review were pre-provided)
+  - `docker build . -t nodeapp` + `docker compose up` — both containers (mongo, node api) running, data seeded from `data/dealerships.json` and `data/reviews.json`
+  - Verified all endpoints locally at http://localhost:3030 — screenshots `node-fetchreviews.png`, `node-fetchdealers.png`
+  - Saved curl transcripts: `getdealerreviews.txt`, `getalldealers.txt`, `getdealerbyid.txt`, `getdealersbyState.txt`
+  - Pushed (commit 8f8fd82)
 - [ ] Sentiment analyzer deployed on Code Engine
 - [ ] Django models/views for car make & model
 - [ ] Django proxy services integrating dealers & reviews
