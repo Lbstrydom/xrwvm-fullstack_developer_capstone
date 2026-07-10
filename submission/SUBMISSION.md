@@ -63,10 +63,13 @@ Check items off here as they're completed; note the screenshot filename once cap
   - Pushed (commit a1c9e39)
 
 ## Module 4 — Dynamic Pages (6 pts)
-- [ ] Dealers list page
-- [ ] Dealer reviews page
-- [ ] Add review page
-- [ ] Screenshots per lab instructions
+- [x] Dealers list page (`frontend/src/components/Dealers/Dealers.jsx`, route `/dealers`) — table of all dealers, state filter dropdown, Review Dealer column when logged in
+- [x] Dealer reviews page (`Dealer.jsx`, route `/dealer/:id`) — dealer details + reviews with sentiment icons + "Write a review" link when logged in
+- [x] Add review page (`PostReview.jsx`, route `/postreview/:id`) — form with review text, purchase date, car make/model dropdown (from `get_cars`), year
+- Fixed two frontend bugs while wiring this up (see commit 4f5252b): `Dealer.jsx` was hitting `djangoapp/reviews/dealer/:id` (plural) instead of the actual `djangoapp/review/dealer/:id` route, and both `Dealer.jsx`/`PostReview.jsx` wrapped the single dealer object in `Array.from()`, which silently returns `[]` for a non-array object
+- Verified full flow via Playwright: anonymous dealers list → login → logged-in dealers list → state filter → dealer reviews page → filled review form → submitted → redirected to dealer page showing the new review with a positive-sentiment icon
+- Screenshots: `get_dealers.png`, `get_dealers_loggedin.png`, `dealersbystate.png`, `dealer_id_reviews.png`, `dealership_review_submission.png`, `added_review.png`
+- Pushed (commit 4f5252b)
 
 ## Module 5 — CI & Containerize (9 pts)
 - [ ] CI linting pipeline
