@@ -1,0 +1,51 @@
+$ kubectl apply -f deployment.yaml
+deployment.apps/dealership created
+
+$ kubectl get deployments
+NAME         READY   UP-TO-DATE   AVAILABLE   AGE
+dealership   1/1     1            1           2m14s
+guestbook    3/3     3            3           12h
+
+$ kubectl get pods -l run=dealership
+NAME                          READY   STATUS    RESTARTS   AGE
+dealership-697c4ddd75-k2pbl   1/1     Running   0          2m14s
+
+$ kubectl describe deployment dealership
+Name:                   dealership
+Namespace:              default
+CreationTimestamp:      Fri, 10 Jul 2026 21:06:06 +0200
+Labels:                 run=dealership
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               run=dealership
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  run=dealership
+  Containers:
+   dealership:
+    Image:      dealership:latest
+    Port:       8000/TCP
+    Host Port:  0/TCP
+    Environment:
+      backend_url:             http://host.docker.internal:3030
+      sentiment_analyzer_url:  http://host.docker.internal:5050/
+    Mounts:                    <none>
+  Volumes:                     <none>
+  Node-Selectors:              <none>
+  Tolerations:                 <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   dealership-697c4ddd75 (1/1 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  2m14s  deployment-controller  Scaled up replica set dealership-697c4ddd75 from 0 to 1
+
+$ kubectl port-forward deployment.apps/dealership 8000:8000
+Forwarding from [::1]:8000 -> 8000

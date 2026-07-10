@@ -1,0 +1,6 @@
+http://localhost:8000/
+
+Note: this is a local Kubernetes deployment (Docker Desktop's built-in Kubernetes),
+not IBM Cloud/SN Labs (no ibmcloud CLI / ICR namespace available in this environment).
+Exposed via: kubectl port-forward deployment.apps/dealership 8000:8000
+Image: dealership:latest, built locally from server/Dockerfile, deployed via server/deployment.yaml.
