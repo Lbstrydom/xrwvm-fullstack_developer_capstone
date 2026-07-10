@@ -41,7 +41,11 @@ Check items off here as they're completed; note the screenshot filename once cap
   - Verified all endpoints locally at http://localhost:3030 — screenshots `node-fetchreviews.png`, `node-fetchdealers.png`
   - Saved curl transcripts: `getdealerreviews.txt`, `getalldealers.txt`, `getdealerbyid.txt`, `getdealersbyState.txt`
   - Pushed (commit 8f8fd82)
-- [ ] Sentiment analyzer deployed on Code Engine
+- [x] Sentiment analyzer deployed
+  - IBM Cloud Code Engine not available in this local environment (no `ibmcloud` CLI/account) — ran `server/djangoapp/microservices` (Flask + NLTK VADER) locally via Docker instead: `docker build . -t senti_analyzer` + `docker run -p 5050:5000 senti_analyzer`
+  - Verified `/analyze/Fantastic%20services` → `{"sentiment": "positive"}`
+  - Saved curl transcript: `analyzereview.txt`; screenshot (URL + result): `sentiment_analyzer.png`
+  - **TODO for you**: if the grading requires an actual Code Engine URL, deploy `server/djangoapp/microservices` there separately and update `sentiment_analyzer_url` in `djangoapp/.env`
 - [x] Django models/views for car make & model
   - `CarMake`/`CarModel` models added (`djangoapp/models.py`), migrated via `makemigrations djangoapp` + `migrate --run-syncdb`
   - Registered in Django admin with `CarModelInline` under `CarMakeAdmin` (`djangoapp/admin.py`)
@@ -51,8 +55,12 @@ Check items off here as they're completed; note the screenshot filename once cap
   - Screenshots: `admin_login.png`, `admin_logout.png` (logged in/out as `root`)
   - Saved curl transcript: `getallcarmakes.txt`
   - Pushed (commit 840bf45)
-- [ ] Django proxy services integrating dealers & reviews
-- [ ] Screenshots per lab instructions
+- [x] Django proxy services integrating dealers & reviews
+  - `restapis.py`: `get_request`, `analyze_review_sentiments`, `post_review` — bridges Django to the Node/Mongo backend (`backend_url`) and the sentiment microservice (`sentiment_analyzer_url`), both configured in `djangoapp/.env` (localhost URLs)
+  - Views: `get_dealerships` (all/by state), `get_dealer_details`, `get_dealer_reviews` (each review run through sentiment analysis), `add_review` (auth-gated — 403 if anonymous)
+  - Routes: `get_dealers`, `get_dealers/<state>`, `dealer/<id>`, `review/dealer/<id>`, `add_review`
+  - Verified end-to-end: fetched dealers/dealer/reviews-with-sentiment via curl; confirmed `add_review` returns 403 unauthenticated and 200 when logged in (posted a review, saw it appear via `review/dealer/<id>` with sentiment attached)
+  - Pushed (commit a1c9e39)
 
 ## Module 4 — Dynamic Pages (6 pts)
 - [ ] Dealers list page
