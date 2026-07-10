@@ -72,7 +72,13 @@ Check items off here as they're completed; note the screenshot filename once cap
 - Pushed (commit 4f5252b)
 
 ## Module 5 — CI & Containerize (9 pts)
-- [ ] CI linting pipeline
+- [x] CI linting pipeline
+  - `.github/workflows/main.yml` — exact lab-provided workflow: `lint_python` (flake8) + `lint_js` (JSHint on `server/database`), on push/PR to main
+  - Fixed real flake8 findings (missing blank lines in `views.py`, trailing blank line in `settings.py`); added `.flake8` (120-char lines, excludes `migrations/`) and `server/database/.jshintrc` (`esversion: 8`, `node: true`, `asi: true`, `sub: true` — without this JSHint can't even parse ES6/async syntax and every file fails)
+  - Verified locally against tracked files only (simulating a fresh CI checkout) before pushing — both lint jobs passed on the very first real run
+  - Live run: https://github.com/Lbstrydom/xrwvm-fullstack_developer_capstone/actions/runs/29116537476 — ✅ both jobs green
+  - Saved `gh run view --verbose` output: `CI_CD.txt`; screenshot: `github_actions_lint.png`
+  - Pushed (commit 707acd9)
 - [ ] Run on Cloud IDE
 - [ ] Local test of updated app
 - [ ] Deploy on Kubernetes
