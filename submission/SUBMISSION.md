@@ -13,9 +13,10 @@ Check items off here as they're completed; note the screenshot filename once cap
 - [x] Added Bootstrap navigation (Home / About Us / Contact Us, in `frontend/static/*.html`)
 - [x] Added About Us static page (`frontend/static/About.html`)
 - [x] Added Contact Us static page (`frontend/static/Contact.html`)
-- [x] Pushed changes to GitHub fork (commit 7f6ced3)
+- [x] Pushed changes to GitHub fork (commit 7f6ced3, contact update pending push)
 - [x] Saved public GitHub URL of About.html — `about_html_url.txt`
-- [ ] Screenshot(s) of app running in browser — TODO: take from your local browser at http://127.0.0.1:8000/, /about/, /contact
+- [x] Saved public GitHub URL of Contact.html — `contact_html_url.txt`
+- [x] Screenshots captured via Playwright: `screenshots/home.png`, `screenshots/about.png`, `screenshots/contact.png`
 - Note: ran locally on Windows, not IBM Cloud IDE — ALLOWED_HOSTS/CSRF_TRUSTED_ORIGINS set to localhost/127.0.0.1 accordingly
 - Note: About.html team photos still use the placeholder `person.png` — swap in real images when you have them
 
