@@ -1,6 +1,10 @@
-http://localhost:8000/
+https://strydomlouis-8000.theiadockernext-1-labs-prod-theiak8s-4-tor01.proxy.cognitiveclass.ai/
 
-Note: this is a local Kubernetes deployment (Docker Desktop's built-in Kubernetes),
-not IBM Cloud/SN Labs (no ibmcloud CLI / ICR namespace available in this environment).
-Exposed via: kubectl port-forward deployment.apps/dealership 8000:8000
-Image: dealership:latest, built locally from server/Dockerfile, deployed via server/deployment.yaml.
+Real deployment on IBM Cloud / SN Labs Kubernetes:
+- Django app image: us.icr.io/sn-labs-strydomlouis/dealership:latest (server/Dockerfile)
+- Node/Express backend image: us.icr.io/sn-labs-strydomlouis/nodeapp:latest (server/database/Dockerfile)
+- MongoDB deployed in-cluster (mongo:latest), Node app deployed in-cluster and wired
+  to it via a "mongo-db" Service and the MONGO_HOST env var
+- Django's backend_url points at the in-cluster "nodeapp-service" Service
+- Exposed via Skills Network Toolbox (port 8000), backed by kubectl port-forward
+  from the SN Labs Theia session

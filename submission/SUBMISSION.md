@@ -117,16 +117,16 @@ Check items off here as they're completed; note the screenshot filename once cap
   - Live run: https://github.com/Lbstrydom/xrwvm-fullstack_developer_capstone/actions/runs/29116537476 — ✅ both jobs green
   - Saved `gh run view --verbose` output: `CICD.txt`; screenshot: `github_actions_lint.png`
   - Pushed (commit 707acd9)
-- [x] Deploy on Kubernetes (containerize + K8s deployment)
-  - `server/Dockerfile` (gunicorn + `entrypoint.sh` running makemigrations/migrate/collectstatic on boot) — per lab spec, `db.sqlite3` (with the `admin`/`root` users and CarMake/CarModel data) is baked into the image via `COPY . $APP`
-  - `server/deployment.yaml` — same shape as the lab's template; image `dealership:latest` instead of `us.icr.io/<namespace>/dealership:latest` since no IBM Cloud Container Registry/`ibmcloud` CLI is available here (same substitution as the Code Engine step)
-  - **Local substitution**: deployed to Docker Desktop's built-in Kubernetes (not SN Labs/IBM Cloud). `backend_url`/`sentiment_analyzer_url` overridden via pod env vars pointing at `host.docker.internal` so the pod can reach the host-run Node/Mongo backend (`:3030`) and sentiment microservice (`:5050`) — Kubernetes networking is a separate namespace from the host, so `localhost` inside the pod would NOT have reached them
-  - `kubectl apply -f deployment.yaml` → pod `Running` 1/1 → `kubectl port-forward deployment.apps/dealership 8000:8000`
-  - Verified end-to-end at http://localhost:8000/: landing page, login (persisted `admin` user from the baked-in DB), dealer details with pre-existing reviews, posted a new review and saw it appear instantly with live sentiment analysis
-  - Saved `deploymentURL.txt`, `kubernetes_deployment.txt` (kubectl command transcript)
+- [x] Deploy on Kubernetes — done for real, on IBM Cloud / SN Labs (superseded the earlier local Docker Desktop run)
+  - `server/Dockerfile` (gunicorn + `entrypoint.sh` running makemigrations/migrate/collectstatic on boot)
+  - Built and pushed from an actual SN Labs session: `us.icr.io/sn-labs-strydomlouis/dealership:latest`
+  - Also containerized and deployed the Node/Express backend into the same cluster (`server/database/Dockerfile` → `us.icr.io/sn-labs-strydomlouis/nodeapp:latest`) plus a `mongo:latest` deployment, since the SN Labs Kubernetes cluster runs on separate infrastructure from the Theia session's Docker daemon — a pod can't reach `localhost:3030` there. Wired together via `server/backend-deployment.yaml` (`mongo-db` + `nodeapp-service` Services)
+  - Fixed `server/database/app.js` to read the Mongo hostname from `MONGO_HOST` (was hardcoded to `mongo_db`, which isn't a valid Kubernetes Service name — underscores aren't allowed) — commit ae1b2b1
+  - `server/deployment.yaml` — `backend_url` points at the in-cluster `nodeapp-service`; `sentiment_analyzer_url` comes from the real Code Engine deployment already baked into `djangoapp/.env`
+  - Created a superuser directly in the running pod (`kubectl exec ... createsuperuser --noinput`) since the SN Labs git clone has no `db.sqlite3` (gitignored)
+  - Exposed via Skills Network Toolbox → real public URL, saved in `deploymentURL.txt`
+  - Verified end-to-end against the real deployment: landing page, login as `admin`, dealer details, posted a new review and saw it appear with live sentiment analysis — all screenshots recaptured against the real URL and replace the earlier local ones
   - Screenshots: `deployed_landingpage.png`, `deployed_loggedin.png`, `deployed_dealer_detail.png`, `deployed_add_review.png`
-  - Pushed (commit ef5718c)
-- [ ] Run on actual Cloud IDE / deploy to real IBM Cloud Kubernetes — **TODO for you** if grading requires the literal SN Labs environment rather than the equivalent local deployment above
 
 ## Notes
 - Fill in exact screenshot filenames as each lab specifies them (graders match by filename).
