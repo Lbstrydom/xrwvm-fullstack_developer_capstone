@@ -77,11 +77,13 @@ Check items off here as they're completed; note the screenshot filename once cap
   - Verified all endpoints locally at http://localhost:3030 — screenshots `node-fetchreviews.png`, `node-fetchdealers.png`
   - Saved curl transcripts: `getdealerreviews.txt`, `getalldealers.txt`, `getdealerbyid.txt`, `getdealersbyState.txt`
   - Pushed (commit 8f8fd82)
-- [x] Sentiment analyzer deployed
-  - IBM Cloud Code Engine not available in this local environment (no `ibmcloud` CLI/account) — ran `server/djangoapp/microservices` (Flask + NLTK VADER) locally via Docker instead: `docker build . -t senti_analyzer` + `docker run -p 5050:5000 senti_analyzer`
+- [x] Sentiment analyzer deployed on real IBM Cloud Code Engine
+  - Deployed from an actual SN Labs session: `docker build`/`push` to `us.icr.io/sn-labs-strydomlouis/senti_analyzer`, then `ibmcloud ce application create --name sentianalyzer --image ... --registry-secret icr-secret --port 5000`
+  - Live URL: https://sentianalyzer.2c5y38wp3aop.us-south.codeengine.appdomain.cloud
   - Verified `/analyze/Fantastic%20services` → `{"sentiment": "positive"}`
-  - Saved curl transcript: `analyzereview.txt`; screenshot (URL + result): `sentiment_analyzer.png`
-  - **TODO for you**: if the grading requires an actual Code Engine URL, deploy `server/djangoapp/microservices` there separately and update `sentiment_analyzer_url` in `djangoapp/.env`
+  - `djangoapp/.env` `sentiment_analyzer_url` updated to the real Code Engine URL (was localhost)
+  - Saved curl transcript: `analyzereview.txt`; screenshot (URL + result): `sentiment_analyzer.png` — both updated to reflect the real deployment
+  - Pushed from SN Labs directly (commit 52135f6), pulled back into local clone and re-captured the screenshot for consistency
 - [x] Django models/views for car make & model
   - `CarMake`/`CarModel` models added (`djangoapp/models.py`), migrated via `makemigrations djangoapp` + `migrate --run-syncdb`
   - Registered in Django admin with `CarModelInline` under `CarMakeAdmin` (`djangoapp/admin.py`)
